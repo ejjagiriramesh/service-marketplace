@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #001F3F;
+  --ink-soft: #1A4D7A;
+  --paper: #F3EEE2;
+  --paper-dim: #E9E1CE;
+  --surface: #FFFFFF;
+  --amber: #FFD700;
+  --amber-deep: #DAA520;
+  --slate: #62707D;
+  --slate-light: #8D97A0;
+  --rust: #C1512F;
+  --green: #3F7859;
+  --line: #D9D0BB;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.f-display { font-family: "Space Grotesk", sans-serif; }
+.f-mono { font-family: "IBM Plex Mono", monospace; letter-spacing: 0.02em; }
+
+.sma-surface { background: var(--surface); }
+.sma-border { border: 1px solid var(--line); }
+
+/* Docket ticket card — the app's signature element */
+.ticket {
+  position: relative;
+  display: flex;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 0 rgba(27, 42, 74, 0.03);
+}
+.ticket-stub {
+  width: 78px;
+  flex-shrink: 0;
+  background: var(--ink);
+  color: #EFE9DA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  padding: 10px 4px;
+}
+.ticket-notch {
+  position: absolute;
+  left: 78px;
+  width: 14px;
+  height: 14px;
+  background: var(--paper);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  border: 1px solid var(--line);
+  z-index: 2;
+}
+.ticket-notch.top { top: -7px; }
+.ticket-notch.bottom { bottom: -7px; }
+.ticket-body {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  border-left: 2px dashed var(--line);
+}
+.ticket-no {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  color: #C9BFA3;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.08em;
+}
+
+.stamp {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 2px solid var(--green);
+  color: var(--green);
+  border-radius: 999px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-9deg);
+  background: rgba(63, 120, 89, 0.06);
+  z-index: 3;
+}
+
+.dot-sep { border-top: 1.5px dashed var(--line); }
+
+.tap { transition: transform 0.15s ease, box-shadow 0.15s ease; cursor: pointer; }
+.tap:active { transform: scale(0.98); }
+
+.chip {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--slate);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.chip.active { background: var(--ink); color: #F3EEE2; border-color: var(--ink); }
+
+.btn-primary {
+  background: var(--ink);
+  color: #F3EEE2;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  padding: 13px 18px;
+  cursor: pointer;
+}
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-amber {
+  background: var(--amber);
+  color: var(--ink);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+
+.input-field {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-family: "Inter", sans-serif;
+  outline: none;
+  background: var(--surface);
+}
+.input-field:focus { border-color: var(--ink); }
+.input-error { border-color: var(--rust); }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+.status-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
