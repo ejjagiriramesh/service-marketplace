@@ -28,7 +28,7 @@ export const authService = {
     });
   },
 
-  async register({ name, email, password }) {
+  async register({ name, email, password, location, coordinates }) {
     return mockRequest(() => {
       const user = {
         id: "U" + Date.now(),
@@ -36,7 +36,8 @@ export const authService = {
         email,
         phone: "",
         role: ROLES.CUSTOMER,
-        location: "Kukatpally, Telangana",
+        location: location || "Kukatpally, Telangana",
+        coordinates: coordinates || null,
         rating: null,
       };
       setToken("demo-token." + btoa(email));

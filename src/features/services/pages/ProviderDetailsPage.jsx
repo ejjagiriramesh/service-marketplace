@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Heart, ShieldCheck } from "lucide-react";
+import { Heart, MapPin, ShieldCheck } from "lucide-react";
 import { useProvider } from "../hooks/useProviders.js";
 import { TopBar } from "../../../shared/navigation/TopBar.jsx";
 import { RatingRow } from "../../../shared/components/RatingRow.jsx";
@@ -8,6 +8,7 @@ import { SectionHeading } from "../../../shared/components/SectionHeading.jsx";
 import { AppButton } from "../../../shared/components/AppButton.jsx";
 import { AsyncState } from "../../../shared/components/AsyncState.jsx";
 import { useFavorites } from "../../../app/providers/FavoritesProvider.jsx";
+import { useAuth } from "../../../app/providers/AuthProvider.jsx";
 import { getCategoryIcon } from "../utils/serviceUtils.js";
 
 export default function ProviderDetailsPage() {
@@ -15,6 +16,7 @@ export default function ProviderDetailsPage() {
   const navigate = useNavigate();
   const { data: provider, isLoading, isError, error } = useProvider(providerId);
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { user } = useAuth();
 
   const startRequest = (service) => navigate("/request/new", { state: { providerId, service } });
 
@@ -33,14 +35,14 @@ export default function ProviderDetailsPage() {
       />
       <div className="px-4 pt-4">
         <AsyncState isLoading={isLoading} isError={isError} error={error} isEmpty={!isLoading && !provider}>
-          {provider && <ProviderDetailsBody provider={provider} onRequest={startRequest} />}
+          {provider && <ProviderDetailsBody provider={provider} location={provider.location || (provider.id === "P100" ? user?.location : null)} onRequest={startRequest} />}
         </AsyncState>
       </div>
     </div>
   );
 }
 
-function ProviderDetailsBody({ provider, onRequest }) {
+function ProviderDetailsBody({ provider, location, onRequest }) {
   const Icon = getCategoryIcon(provider.categoryId);
   return (
     <div style={{ margin: "-16px" }}>
@@ -89,6 +91,13 @@ function ProviderDetailsBody({ provider, onRequest }) {
           {provider.tags.map((t) => (
             <span key={t} className="chip"><ShieldCheck size={11} style={{ marginRight: 4, display: "inline" }} />{t}</span>
           ))}
+        </div>
+        <div className="sma-surface sma-border flex items-start gap-2" style={{ borderRadius: 12, padding: "11px 12px", marginBottom: 14 }}>
+          <MapPin size={16} color="var(--ink-soft)" style={{ flexShrink: 0, marginTop: 1 }} />
+          <div>
+            <div className="f-mono" style={{ fontSize: 10, color: "var(--slate)", letterSpacing: "0.06em" }}>SERVICE LOCATION</div>
+            <div style={{ fontSize: 12.5, marginTop: 3 }}>{location || "Location available after provider setup"}</div>
+          </div>
         </div>
         <p style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.5 }}>{provider.bio}</p>
       </div>

@@ -6,11 +6,13 @@ import { registerSchema } from "../schemas/authSchema.js";
 import { useAuth } from "../../../app/providers/AuthProvider.jsx";
 import { AppTextField } from "../../../shared/components/TextField.jsx";
 import { AppButton } from "../../../shared/components/AppButton.jsx";
+import { OfficeLocationPicker } from "../../../shared/location/OfficeLocationPicker.jsx";
 
 export default function RegisterPage() {
   const { register: registerUser } = useAuth();
   const navigate = useNavigate();
   const [formError, setFormError] = useState(null);
+  const [officeLocation, setOfficeLocation] = useState(null);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(registerSchema),
@@ -18,8 +20,12 @@ export default function RegisterPage() {
 
   const onSubmit = async (values) => {
     setFormError(null);
+    if (!officeLocation?.address) {
+      setFormError("Search for your office location or use your live location.");
+      return;
+    }
     try {
-      await registerUser(values);
+      await registerUser({ ...values, location: officeLocation.address, coordinates: officeLocation.coordinates });
       navigate("/", { replace: true });
     } catch (err) {
       setFormError(err.message || "Could not create your account.");
@@ -38,6 +44,7 @@ export default function RegisterPage() {
           <AppTextField label="Email" type="email" error={errors.email?.message} {...register("email")} />
           <AppTextField label="Password" type="password" error={errors.password?.message} {...register("password")} />
           <AppTextField label="Confirm password" type="password" error={errors.confirmPassword?.message} {...register("confirmPassword")} />
+          <OfficeLocationPicker value={officeLocation} onChange={setOfficeLocation} />
           {formError && <div style={{ fontSize: 12.5, color: "var(--rust)", marginBottom: 12 }}>{formError}</div>}
           <AppButton type="submit" fullWidth disabled={isSubmitting}>
             {isSubmitting ? "Creating account…" : "Create account"}

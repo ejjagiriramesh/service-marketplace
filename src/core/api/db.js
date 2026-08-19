@@ -8,6 +8,8 @@ const LS_KEYS = {
   providerInbox: "sh_provider_inbox",
   favorites: "sh_favorites",
   user: "sh_user",
+  reviews: "sh_reviews",
+  addresses: "sh_addresses",
 };
 
 export const CATEGORIES = [
@@ -120,6 +122,10 @@ export const db = {
   saveProviderInbox: (list) => writeLS(LS_KEYS.providerInbox, list),
   getFavorites: () => readLS(LS_KEYS.favorites, []),
   saveFavorites: (list) => writeLS(LS_KEYS.favorites, list),
+  getReviews: () => readLS(LS_KEYS.reviews, []),
+  saveReviews: (list) => writeLS(LS_KEYS.reviews, list),
+  getAddresses: () => readLS(LS_KEYS.addresses, SAVED_ADDRESSES),
+  saveAddresses: (list) => writeLS(LS_KEYS.addresses, list),
   getUser: () => readLS(LS_KEYS.user, null),
   saveUser: (user) => writeLS(LS_KEYS.user, user),
   clearUser: () => localStorage.removeItem(LS_KEYS.user),
